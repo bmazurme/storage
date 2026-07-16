@@ -1,14 +1,14 @@
 import { ThemeProvider } from '@gravity-ui/uikit';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Header } from './components/Header';
 import { SearchResults } from './components/SearchResults';
 import { WarehouseTree } from './components/WarehouseTree';
+import { useSearch } from './hooks/useSearch';
 import { useTheme } from './hooks/useTheme';
 
 export function App() {
   const { theme, toggleTheme } = useTheme();
-  const [query, setQuery] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const { query, debouncedQuery, setDebouncedQuery } = useSearch();
 
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedQuery(query.trim()), 300);
@@ -21,8 +21,6 @@ export function App() {
         <Header
           theme={theme}
           onToggleTheme={toggleTheme}
-          query={query}
-          onQueryChange={setQuery}
         />
         <main>
           {debouncedQuery.length >= 2 ? (
